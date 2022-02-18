@@ -2,7 +2,8 @@ import time
 import re
 import requests
 import pyautogui
-import pytesseract 
+import pytesseract
+import threading
 
 target= ["","",""]
 
