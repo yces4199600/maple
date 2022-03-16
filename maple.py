@@ -25,7 +25,7 @@ target_num = Setting()
 print("目標1:",target[0],"\n目標2:",target[1],"\n目標3:",target[2],"\n要求數量:",target_num)
 while(1):
   startkey = input("輸入'start'開始執行程式:")
-  if(startkey=="start"or startkey=="START"):
+  if(startkey.lower()=="start"):
     print("開始執行程式")
     break
 while(1):#執行比對迴圈
