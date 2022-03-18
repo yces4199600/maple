@@ -144,7 +144,7 @@ while(1):#執行比對迴圈n
   # 將資料加入 POST 請求中
     send = requests.post('https://discord.com/api/webhooks/954026486225068042/RxV8oUWQfTgoFMFj-GKtFEqDpy7vgCeOCsFgUPrjITQmpSyL-KoCpYWrqoSQCKTb1Pd2',my_data)
     break
-  else:#!!!!!補上滑鼠及鍵盤事件!!!!!
+  else:
     pyautogui.click(x=645, y=495, clicks=2)
     pyautogui.press('enter')
     pyautogui.click(x=645, y=495, clicks=2)
