@@ -4,6 +4,10 @@ import pyautogui
 import cv2
 from cv2 import waitKey
 import numpy as np
+screenshot_x=600
+screenshot_y=500
+click_x=870
+click_y=650
 ###################################################################################
 def Runout(input_user):#設定次數耗盡時的通知對象
   if(input_user==1):
@@ -130,27 +134,27 @@ def Comparison(Attributes,Threshold):#影像比對
   if(Attributes==1):
     template=cv2.imread("int.jpg",0)
   elif(Attributes==2):
-    template=cv2.imread("int.jpg",0)
+    template=cv2.imread("str.jpg",0)
   elif(Attributes==3):
-    template=cv2.imread("int.jpg",0)
+    template=cv2.imread("dex.jpg",0)
   elif(Attributes==4):
-    template=cv2.imread("int.jpg",0)
+    template=cv2.imread("luk.jpg",0)
   elif(Attributes==5):
-    template=cv2.imread("int.jpg",0)
+    template=cv2.imread("all.jpg",0)
   elif(Attributes==6):
-    template=cv2.imread("int.jpg",0)
+    template=cv2.imread("treasure.jpg",0)
   elif(Attributes==7):
-    template=cv2.imread("int.jpg",0)
-  pyautogui.screenshot('src.jpg',region=(645,495,500,255))#螢幕抓取(X軸,Y軸,寬,高)
+    template=cv2.imread("gold.jpg",0)
+  pyautogui.screenshot('src.jpg',region=(screenshot_x,screenshot_y,500,255))#螢幕抓取(X軸,Y軸,寬,高)
   img_rgb = cv2.imread('src.jpg')
   img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
   h, w = template.shape[:2]
   taken=0
   # 归一化平方差匹配
   res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
-  threshold = 0.9 #閥值設定
+  com_threshold = 0.96 #閥值設定
   # 这段代码后面会有解释
-  loc = np.where(res >= threshold)  # 匹配程度大于80%的坐标y，x
+  loc = np.where(res >= com_threshold)  # 匹配程度大于80%的坐标y，x
   for pt in zip(*loc[::-1]): # *号表示可选参数
     right_bottom = (pt[0] + w, pt[1] + h)
     cv2.rectangle(img_rgb, pt, right_bottom, (0, 0, 255), 2)
@@ -182,13 +186,11 @@ while(1):
   if(startkey.lower()=="y"):
     print("----------------")
     break
-  elif(startkey.lower()=="n"):
-    Quantity,targetQuantity,targetArray=TargetArraySetting()
 
 while(1):
   print("先關閉預覽視窗再輸入")
   print("確認圖片正確(Y/N):")
-  pyautogui.screenshot('src.jpg',region=(645,495,500,255))#螢幕抓取(X軸,Y軸,寬,高)
+  pyautogui.screenshot('src.jpg',region=(screenshot_x,screenshot_y,500,255))#螢幕抓取(X軸,Y軸,寬,高)
   img_rgb = cv2.imread('src.jpg')
   cv2.imshow('preview',img_rgb)
   cv2.setWindowProperty("preview", cv2.WND_PROP_TOPMOST, 1)
@@ -212,6 +214,7 @@ while(1):#執行比對迴圈n
       conform_num=0
       conform_num+=Comparison(targetArray[i][j][0],targetArray[i][j][1])
       if(conform_num==targetQuantity[i]):
+        print("完成目標:",i+1)
         compare_flag=1
         break
       else:
@@ -225,9 +228,9 @@ while(1):#執行比對迴圈n
     send = requests.post('https://discord.com/api/webhooks/954026486225068042/RxV8oUWQfTgoFMFj-GKtFEqDpy7vgCeOCsFgUPrjITQmpSyL-KoCpYWrqoSQCKTb1Pd2',my_data)
     break
   else:
-    pyautogui.click(x=645, y=495, clicks=2)
+    pyautogui.click(click_x, click_y, clicks=2)
     pyautogui.press('enter')
-    pyautogui.click(x=645, y=495, clicks=2)
+    pyautogui.click(click_x, click_y, clicks=2)
     print("FAIL!")
     print("剩餘次數:",input_times)
     print("----------------")
