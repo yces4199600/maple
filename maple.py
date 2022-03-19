@@ -1,13 +1,16 @@
 import time
+from turtle import width
 import requests
 import pyautogui
 import cv2
 from cv2 import waitKey
 import numpy as np
-screenshot_x=600
+src_width=460
+src_length=200
+screenshot_x=800
 screenshot_y=500
-click_x=870
-click_y=650
+click_x=800
+click_y=500
 ###################################################################################
 def Runout(input_user):#設定次數耗盡時的通知對象
   if(input_user==1):
@@ -52,11 +55,15 @@ def TargetArraySetting():
       print("|(5)全屬+9%   |")
       print("|(6)掉寶++    |")
       print("|(7)掉幣++    |")
+      print("|(8)物功++    |")
+      print("|(9)魔功++    |")
+      print("|(10)B傷++    |")
+      print("|(11)B防++    |")
       print("+-------------+")
       while(1):
-        print("選擇目標",i+1,"第",j+1,"項屬性(1~7):")
+        print("選擇目標",i+1,"第",j+1,"項屬性(1~11):")
         targetArray[i][j][0]=int(input())
-        if(targetArray[i][j][0]>0 and targetArray[i][j][0]<8):
+        if(targetArray[i][j][0]>0 and targetArray[i][j][0]<12):
           break
         else:
           print("輸入錯誤")
@@ -90,6 +97,14 @@ def TargetArraySetting():
         print("目標",i+1,"第",j+1,"項屬性及門檻值: 掉寶++ ,",targetArray[i][j][1])
       elif(targetArray[i][j][0]==7):
         print("目標",i+1,"第",j+1,"項屬性及門檻值: 掉幣++ ,",targetArray[i][j][1])
+      elif(targetArray[i][j][0]==8):
+        print("目標",i+1,"第",j+1,"項屬性及門檻值: 物功++ ,",targetArray[i][j][1])
+      elif(targetArray[i][j][0]==9):
+        print("目標",i+1,"第",j+1,"項屬性及門檻值: 魔功++ ,",targetArray[i][j][1])
+      elif(targetArray[i][j][0]==10):
+        print("目標",i+1,"第",j+1,"項屬性及門檻值: B傷++ ,",targetArray[i][j][1])
+      elif(targetArray[i][j][0]==11):
+        print("目標",i+1,"第",j+1,"項屬性及門檻值: B防++ ,",targetArray[i][j][1])
   print("****************************************")
   return Quantity,targetQuantity,targetArray
 ###################################################################################
@@ -145,7 +160,15 @@ def Comparison(Attributes,Threshold):#影像比對
     template=cv2.imread("treasure.jpg",0)
   elif(Attributes==7):
     template=cv2.imread("gold.jpg",0)
-  pyautogui.screenshot('src.jpg',region=(screenshot_x,screenshot_y,500,255))#螢幕抓取(X軸,Y軸,寬,高)
+  elif(Attributes==8):
+    template=cv2.imread("ad.jpg",0)
+  elif(Attributes==9):
+    template=cv2.imread("ap.jpg",0)
+  elif(Attributes==10):
+    template=cv2.imread("bossatk.jpg",0)
+  elif(Attributes==11):
+    template=cv2.imread("bossdef.jpg",0)
+  pyautogui.screenshot('src.jpg',region=(screenshot_x,screenshot_y,src_width,src_length))#螢幕抓取(X軸,Y軸,寬,高)
   img_rgb = cv2.imread('src.jpg')
   img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
   h, w = template.shape[:2]
@@ -190,7 +213,7 @@ while(1):
 while(1):
   print("先關閉預覽視窗再輸入")
   print("確認圖片正確(Y/N):")
-  pyautogui.screenshot('src.jpg',region=(screenshot_x,screenshot_y,500,255))#螢幕抓取(X軸,Y軸,寬,高)
+  pyautogui.screenshot('src.jpg',region=(screenshot_x,screenshot_y,src_width,src_length))#螢幕抓取(X軸,Y軸,寬,高)
   img_rgb = cv2.imread('src.jpg')
   cv2.imshow('preview',img_rgb)
   cv2.setWindowProperty("preview", cv2.WND_PROP_TOPMOST, 1)
@@ -207,7 +230,6 @@ while(1):#執行比對迴圈n
     #傳送次數用盡通知
     send = requests.post('https://discord.com/api/webhooks/954026486225068042/RxV8oUWQfTgoFMFj-GKtFEqDpy7vgCeOCsFgUPrjITQmpSyL-KoCpYWrqoSQCKTb1Pd2',my_data)
     break
-  time.sleep(1)
   for i in range(0,Quantity):
     compare_flag=0
     for j in range(0,targetQuantity[i]):
@@ -230,10 +252,8 @@ while(1):#執行比對迴圈n
   else:
     pyautogui.click(click_x, click_y, clicks=2)
     pyautogui.press('enter')
+    time.sleep(0.3)
     pyautogui.click(click_x, click_y, clicks=2)
     print("FAIL!")
     print("剩餘次數:",input_times)
     print("----------------")
-   
-
-

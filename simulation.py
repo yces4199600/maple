@@ -20,19 +20,19 @@ while(1):
   for x in range(0,3):
     randnum  = random.randint(1,7)
     if(randnum ==1):
-      output[x]="int +12%"
+      output[x]="INT +12%"
     elif(randnum ==2):
-      output[x]="str +12%"
+      output[x]="STR +12%"
     elif(randnum ==3):
-      output[x]="dex +12%"
+      output[x]="DEX +12%"
     elif(randnum ==4):
-      output[x]="str +24"
+      output[x]="LUK +12%"
     elif(randnum ==5):
-      output[x]="最大爆擊率提升"
+      output[x]="全屬性 +9%"
     elif(randnum ==6):
-      output[x]="提升技能急速"
+      output[x]="掉寶率 +20%"
     elif(randnum ==7):
-      output[x]="int +12"
+      output[x]="掉幣率 +20%"
   shape = (100, 200, 3) # y, x, RGB
   bk_img = np.full(shape,0).astype(np.uint8)
   fontpath = "font/simsun.ttc"
@@ -44,7 +44,7 @@ while(1):
   draw.text((0,66),output[2],font=font,fill=(255,255,255))
   bk_img=np.array(img_pil)
   cv2.imshow("added",bk_img)
-  cv2.moveWindow("added",800,400)
+  cv2.moveWindow("added",500,400)
   key=cv2.waitKey(0)
   if(key==27):
     print("stop")
