@@ -148,28 +148,39 @@ def Setting():#設定執行條件
 def Comparison(Attributes,Threshold):#影像比對
   if(Attributes==1):
     template=cv2.imread("./src/int.jpg",0)
+    temp_attribute="INT"
   elif(Attributes==2):
     template=cv2.imread("./src/str.jpg",0)
+    temp_attribute="STR"
   elif(Attributes==3):
     template=cv2.imread("./src/dex.jpg",0)
+    temp_attribute="DEX"
   elif(Attributes==4):
     template=cv2.imread("./src/luk.jpg",0)
+    temp_attribute="LUK"
   elif(Attributes==5):
     template=cv2.imread("./src/all.jpg",0)
+    temp_attribute="全屬性"
   elif(Attributes==6):
     template=cv2.imread("./src/treasure.jpg",0)
+    temp_attribute="掉寶"
   elif(Attributes==7):
     template=cv2.imread("./src/gold.jpg",0)
+    temp_attribute="掉幣"
   elif(Attributes==8):
     template=cv2.imread("./src/ad.jpg",0)
+    temp_attribute="物功"
   elif(Attributes==9):
     template=cv2.imread("./src/ap.jpg",0)
+    temp_attribute="魔功"
   elif(Attributes==10):
     template=cv2.imread("./src/bossatk.jpg",0)
+    temp_attribute="B傷"
   elif(Attributes==11):
     template=cv2.imread("./src/bossdef.jpg",0)
-  pyautogui.screenshot('./src/src.jpg',region=(screenshot_x,screenshot_y,src_width,src_length))#螢幕抓取(X軸,Y軸,寬,高)
-  img_rgb = cv2.imread('./src/src.jpg')
+    temp_attribute="B防"
+  pyautogui.screenshot('current.jpg',region=(screenshot_x,screenshot_y,src_width,src_length))#螢幕抓取(X軸,Y軸,寬,高)
+  img_rgb = cv2.imread('current.jpg')
   img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
   h, w = template.shape[:2]
   taken=0
@@ -179,8 +190,7 @@ def Comparison(Attributes,Threshold):#影像比對
   # 这段代码后面会有解释
   loc = np.where(res >= com_threshold)  # 匹配程度大于閥值的坐标y，x
   for pt in zip(*loc[::-1]): # *号表示可选参数
-    # right_bottom = (pt[0] + w, pt[1] + h)
-    # cv2.rectangle(img_rgb, pt, right_bottom, (0, 0, 255), 2)#在符合目標區域畫出邊框
+    print("當前圖像與屬性(",temp_attribute,")相似度為:",res[pt[1]][pt[0]])#顯示大於閥值的相似值
     taken+=1
   if(taken>=Threshold):
     return 1
@@ -213,8 +223,8 @@ while(1):
 while(1):
   print("先關閉預覽視窗再輸入")
   print("確認圖片正確(Y/N):")
-  pyautogui.screenshot('src.jpg',region=(screenshot_x,screenshot_y,src_width,src_length))#螢幕抓取(X軸,Y軸,寬,高)
-  img_rgb = cv2.imread('src.jpg')
+  pyautogui.screenshot('current.jpg',region=(screenshot_x,screenshot_y,src_width,src_length))#螢幕抓取(X軸,Y軸,寬,高)
+  img_rgb = cv2.imread('current.jpg')
   cv2.imshow('preview',img_rgb)
   cv2.setWindowProperty("preview", cv2.WND_PROP_TOPMOST, 1)
   waitKey(0)
